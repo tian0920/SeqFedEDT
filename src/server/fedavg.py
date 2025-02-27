@@ -299,6 +299,24 @@ class FedAvgServer:
                     **extras,
                 ),
             )
+        elif self.args.mode == "sequential":
+            self.trainer = FLbenchTrainer(
+                server=self,
+                client_cls=self.client_cls,
+                mode=MODE.SEQUENTIAL,
+                num_workers=0,
+                init_args=dict(
+                    model=deepcopy(self.model),
+                    optimizer_cls=self.get_client_optimizer_cls(),
+                    lr_scheduler_cls=self.get_client_lr_scheduler_cls(),
+                    args=self.args,
+                    dataset=self.dataset,
+                    data_indices=self.client_data_indices,
+                    device=self.device,
+                    return_diff=self.return_diff,
+                    **extras,
+                ),
+            )
         else:
             model_ref = ray.put(self.model.cpu())
             optimzier_cls_ref = ray.put(self.get_client_optimizer_cls())
@@ -501,8 +519,12 @@ class FedAvgServer:
         """The function of indicating specific things FL method need to do (at
         server side) in each communication round."""
 
-        client_packages = self.trainer.train()
-        self.aggregate_client_updates(client_packages)
+        if MODE.SEQUENTIAL:
+            self.public_model_params = self.trainer.train()
+            self.model.load_state_dict(self.public_model_params, strict=False)
+        else:
+            client_packages = self.trainer.train()
+            self.aggregate_client_updates(client_packages)
 
     def package(self, client_id: int):
         """Package parameters that the client-side training needs. If you are

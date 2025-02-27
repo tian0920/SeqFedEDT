@@ -15,7 +15,7 @@ class FLbenchTrainer:
         self.client_cls = client_cls
         self.mode = mode
         self.num_workers = num_workers
-        if self.mode == MODE.SERIAL:
+        if self.mode == MODE.SERIAL or self.mode == MODE.SEQUENTIAL:
             self.worker = client_cls(**init_args)
         elif self.mode == MODE.PARALLEL:
             ray_client = ray.remote(client_cls).options(
@@ -32,6 +32,10 @@ class FLbenchTrainer:
             self.train = self._serial_train
             self.test = self._serial_test
             self.exec = self._serial_exec
+        elif self.mode == MODE.SEQUENTIAL:
+            self.train = self._sequential_train
+            self.test = self._sequential_test
+            self.exec = self._sequential_exec
         else:
             self.train = self._parallel_train
             self.test = self._parallel_test
@@ -60,6 +64,47 @@ class FLbenchTrainer:
             self.server.client_lr_scheduler_states[client_id].update(
                 client_package["lr_scheduler_state"]
             )
+
+        return client_packages
+
+    def _sequential_train(self):
+        """SFL 训练过程：按顺序训练每个客户端，模型参数依次传递"""
+        client_packages = OrderedDict()
+
+        for client_id in self.server.selected_clients:
+            server_package = self.server.package(client_id)
+
+            # 在 SFL 中，每个客户端接收前一个客户端训练后的模型
+            if self.current_model:  # 不是第一个客户端
+                server_package["regular_model_params"] = self.current_model  # 传递上一个客户端的模型
+
+            client_package = self.worker.train(server_package)  # 客户端训练
+            client_packages[client_id] = client_package
+
+            # 更新最新的模型参数（用于下一个客户端）
+            self.current_model = client_package["regular_model_params"]
+
+            if self.server.verbose:
+                self.server.logger.log(
+                    *client_package["eval_results"]["message"], sep="\n"
+                )
+            self.server.client_metrics[client_id][self.server.current_epoch] = (
+                client_package["eval_results"]
+            )
+            self.server.clients_personal_model_params[client_id].update(
+                client_package["personal_model_params"]
+            )
+            self.server.client_optimizer_states[client_id].update(
+                client_package["optimizer_state"]
+            )
+            self.server.client_lr_scheduler_states[client_id].update(
+                client_package["lr_scheduler_state"]
+            )
+
+        if MODE.SEQUENTIAL:
+            last_client_id = self.server.selected_clients[-1]
+            next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
+            return next_epoch_parms
 
         return client_packages
 
@@ -115,6 +160,20 @@ class FLbenchTrainer:
                 for split in ["train", "val", "test"]:
                     results[stage][split].update(metrics[stage][split])
 
+    def _sequential_test(self, clients: list[int], results: dict):
+        """SFL 测试过程：按顺序测试每个客户端，模型参数依次传递"""
+
+        for client_id in clients:
+            server_package = self.server.package(client_id)
+
+            # 进行测试
+            metrics = self.worker.test(server_package)
+
+            # 存储测试结果
+            for stage in ["before", "after"]:
+                for split in ["train", "val", "test"]:
+                    results[stage][split].update(metrics[stage][split])
+
     def _parallel_test(self, clients: list[int], results: dict):
         i = 0
         futures = []
@@ -153,6 +212,30 @@ class FLbenchTrainer:
             package = getattr(self.worker, func_name)(server_package)
             client_packages[client_id] = package
         return client_packages
+
+    def _sequential_exec(
+            self,
+            func_name: str,
+            clients: list[int],
+            package_func: Optional[Callable[[int], dict[str, Any]]] = None,
+    ):
+        if package_func is None:
+            package_func = getattr(self.server, "package")
+        client_packages = OrderedDict()
+        for client_id in clients:
+            server_package = package_func(client_id)
+            if self.current_model:  # 不是第一个客户端
+                server_package["regular_model_params"] = self.current_model  # 传递上一个客户端的模型
+
+            package = getattr(self.worker, func_name)(server_package)
+            client_packages[client_id] = package
+            # 更新最新的模型参数（用于下一个客户端）
+            self.current_model = package["regular_model_params"]
+
+        last_client_id = self.server.selected_clients[-1]
+        next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
+        return next_epoch_parms
+
 
     def _parallel_exec(
         self,

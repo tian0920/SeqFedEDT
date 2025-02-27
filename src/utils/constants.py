@@ -13,6 +13,7 @@ TEMP_DIR = FLBENCH_ROOT / "temp"
 class MODE(Enum):
     SERIAL = 0
     PARALLEL = 1
+    SEQUENTIAL = 1
 
 
 DEFAULTS = {
