@@ -281,29 +281,14 @@ class FedAvgServer:
         `[model, args, optimizer_cls, lr_scheduler_cls, dataset, data_indices,
         device, return_diff]`.
         """
+        if self.args.mode not in ["serial", "parallel"]:
+            raise ValueError('Error: mode only sets "serial" or "parallel" !')
+
         if self.args.mode == "serial" or self.args.parallel.num_workers < 2:
             self.trainer = FLbenchTrainer(
                 server=self,
                 client_cls=self.client_cls,
                 mode=MODE.SERIAL,
-                num_workers=0,
-                init_args=dict(
-                    model=deepcopy(self.model),
-                    optimizer_cls=self.get_client_optimizer_cls(),
-                    lr_scheduler_cls=self.get_client_lr_scheduler_cls(),
-                    args=self.args,
-                    dataset=self.dataset,
-                    data_indices=self.client_data_indices,
-                    device=self.device,
-                    return_diff=self.return_diff,
-                    **extras,
-                ),
-            )
-        elif self.args.mode == "sequential":
-            self.trainer = FLbenchTrainer(
-                server=self,
-                client_cls=self.client_cls,
-                mode=MODE.SEQUENTIAL,
                 num_workers=0,
                 init_args=dict(
                     model=deepcopy(self.model),
