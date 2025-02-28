@@ -519,12 +519,8 @@ class FedAvgServer:
         """The function of indicating specific things FL method need to do (at
         server side) in each communication round."""
 
-        if MODE.SEQUENTIAL:
-            self.public_model_params = self.trainer.train()
-            self.model.load_state_dict(self.public_model_params, strict=False)
-        else:
-            client_packages = self.trainer.train()
-            self.aggregate_client_updates(client_packages)
+        client_packages = self.trainer.train()
+        self.aggregate_client_updates(client_packages)
 
     def package(self, client_id: int):
         """Package parameters that the client-side training needs. If you are

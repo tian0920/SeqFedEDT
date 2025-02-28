@@ -14,6 +14,7 @@ class FLbenchTrainer:
         self.server = server
         self.client_cls = client_cls
         self.mode = mode
+        self.current_model = None
         self.num_workers = num_workers
         if self.mode == MODE.SERIAL or self.mode == MODE.SEQUENTIAL:
             self.worker = client_cls(**init_args)
@@ -101,12 +102,10 @@ class FLbenchTrainer:
                 client_package["lr_scheduler_state"]
             )
 
-        if MODE.SEQUENTIAL:
-            last_client_id = self.server.selected_clients[-1]
-            next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
-            return next_epoch_parms
+        last_client_id = self.server.selected_clients[-1]
+        next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
+        return next_epoch_parms
 
-        return client_packages
 
     def _parallel_train(self):
         clients = self.server.selected_clients
