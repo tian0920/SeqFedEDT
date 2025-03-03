@@ -281,8 +281,6 @@ class FedAvgServer:
         `[model, args, optimizer_cls, lr_scheduler_cls, dataset, data_indices,
         device, return_diff]`.
         """
-        if self.args.mode not in ["serial", "parallel"]:
-            raise ValueError('Error: mode only sets "serial" or "parallel" !')
 
         if self.args.mode == "serial" or self.args.parallel.num_workers < 2:
             self.trainer = FLbenchTrainer(

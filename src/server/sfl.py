@@ -1,9 +1,9 @@
-from argparse import ArgumentParser, Namespace
 from omegaconf import DictConfig
 from copy import deepcopy
 from src.server.fedavg import FedAvgServer
 from src.utils.trainer import FLbenchTrainer
 from src.utils.constants import MODE
+from itertools import cycle, islice
 
 
 class SFLServer(FedAvgServer):
@@ -13,6 +13,15 @@ class SFLServer(FedAvgServer):
     def __init__(self, args: DictConfig):
         args.mode = "sequential"
         super().__init__(args)
+
+        ###  测试 data_overlap + client_orderly
+        num_clients_per_round = int(self.client_num * self.args.common.join_ratio)
+        client_cycle = cycle(self.train_clients)  # 将客户端列表变为循环迭代器
+        self.client_sample_stream = [
+            list(islice(client_cycle, num_clients_per_round))  # 每次取 num_clients_per_round 个客户端
+            for _ in range(self.args.common.global_epoch)
+        ]
+
 
     def init_trainer(self, **extras):
         """Initiate the FL-bench trainier that responsible to client training.

@@ -169,7 +169,6 @@ def parse_args(
     assert final_args.mode in [
         "serial",
         "parallel",
-        "sequential",
     ], f"Unrecongnized mode: {final_args.mode}"
     if final_args.mode == "parallel":
         import ray
