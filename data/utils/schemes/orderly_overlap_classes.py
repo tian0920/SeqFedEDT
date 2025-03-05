@@ -14,6 +14,7 @@ def orderly_overlap_classes(
 ):
     """
     按照类别顺序为每个客户端分配数据，并确保相邻客户端有可调节的类别重叠。
+    均匀分配该样本到各个拥有该类别的客户端。
 
     参数:
         targets (np.ndarray): 数据集的标签数组。
@@ -44,17 +45,22 @@ def orderly_overlap_classes(
     ]
 
     # 根据类别分配数据索引
-    for client_id, classes in enumerate(assigned_labels):
-        partition["data_indices"][client_id] = []
-        stats[client_id] = {"x": 0, "y": {}}
+    for label in sorted_labels:
+        # 获取该类别的所有样本索引
+        indices = class_indices[label]
+        np.random.shuffle(indices)  # 打乱样本顺序
 
-        # 分配所有类别的数据，不限制样本数量
-        for label in classes:
-            indices = class_indices[label]  # 获取该类别的所有样本索引
-            partition["data_indices"][client_id].extend(indices)
-            stats[client_id]["y"][label] = len(indices)
+        # 找到所有拥有该类别的客户端
+        clients_with_label = [client_id for client_id, classes in enumerate(assigned_labels) if label in classes]
 
-        # 记录每个客户端拥有的数据量
+        # 将样本均匀分配给拥有该类别的客户端
+        split_indices = np.array_split(indices, len(clients_with_label))
+        for client_id, split in zip(clients_with_label, split_indices):
+            partition["data_indices"][client_id].extend(split)
+            stats[client_id]["y"][label] = len(split)
+
+    # 记录每个客户端拥有的数据量
+    for client_id in range(client_num):
         stats[client_id]["x"] = len(partition["data_indices"][client_id])
         partition["data_indices"][client_id] = target_indices[partition["data_indices"][client_id]]
 
