@@ -29,7 +29,6 @@ from data.utils.schemes import (
     semantic_partition,
 )
 from data.utils.schemes.orderly_overlap_classes import orderly_overlap_classes
-from data.utils.schemes.dirichlet_overlap_classes import dirichlet_overlap_classes
 from data.utils.datasets import DATASETS, BaseDataset
 
 CURRENT_DIR = Path(__file__).parent.absolute()
@@ -119,19 +118,6 @@ def main(args):
                     partition=partition,
                     stats=stats,
                 )
-            elif args.dir_alpha > 0:  # Dirichlet(alpha) with overlap
-                dirichlet_overlap_classes(
-                    targets=targets[target_indices],
-                    target_indices=target_indices,
-                    label_set=valid_label_set,
-                    client_num=client_num,
-                    class_num=args.dir_classes,
-                    overlap_num=args.dir_overlap,
-                    alpha=args.dir_alpha,
-                    min_samples_per_client=args.min_samples_per_client,
-                    partition=partition,
-                    stats=stats,
-                )
             elif args.classes != 0:  # randomly assign classes
                 args.classes = max(1, min(args.classes, len(dataset.classes)))
                 randomly_assign_classes(
@@ -143,7 +129,7 @@ def main(args):
                     partition=partition,
                     stats=stats,
                 )
-            elif args.client_classes != 0 and args.overlap_classes != 0:  # orderly assign classes and overlap some classes
+            elif args.client_classes != 0 and args.overlap_classes is not None:  # orderly assign classes and overlap some classes
                 args.client_classes = max(1, min(args.client_classes, len(dataset.classes)))
                 if args.overlap_classes > args.client_classes:
                     raise ValueError(f"{args.overlap_classes} must be less than {args.client_classes}.")
@@ -386,11 +372,6 @@ if __name__ == "__main__":
     parser.add_argument("-vr", "--val_ratio", type=float, default=0.0)
     parser.add_argument("-tr", "--test_ratio", type=float, default=0.25)
     parser.add_argument("-pd", "--plot_distribution", type=int, default=1)
-
-    # Dirichlet(alpha) with overlap
-    parser.add_argument("-da", "--dir_alpha", type=float, default=0.1)
-    parser.add_argument("-dc", "--dir_classes", type=int, default=0)
-    parser.add_argument("-do", "--dir_overlap", type=int, default=0)
 
     # Randomly assign classes
     parser.add_argument("-c", "--classes", type=int, default=0)

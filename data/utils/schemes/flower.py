@@ -1,7 +1,7 @@
 import json
 from collections import Counter
 
-import datasets
+from data.utils import datasets
 import numpy as np
 
 from data.utils.process import partitioner_class_from_flwr_datasets

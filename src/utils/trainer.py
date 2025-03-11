@@ -160,14 +160,10 @@ class FLbenchTrainer:
 
     def _sequential_test(self, clients: list[int], results: dict):
         """SFL 测试过程：按顺序测试每个客户端，模型参数依次传递"""
-
         for client_id in clients:
             server_package = self.server.package(client_id)
-
-            # 进行测试
+            server_package['regular_model_params'] = self.current_model
             metrics = self.worker.test(server_package)
-
-            # 存储测试结果
             for stage in ["before", "after"]:
                 for split in ["train", "val", "test"]:
                     results[stage][split].update(metrics[stage][split])

@@ -31,40 +31,45 @@ def orderly_overlap_classes(
     class_indices = {label: np.where(targets == label)[0] for label in label_set}
 
     # 对类别进行排序
-    sorted_labels = sorted(label_set)
-    total_classes = len(sorted_labels)
+    sorted_labels = sorted(label_set) * 2
+    total_classes = len(label_set)
 
     # 确保类别重叠数不超过每个客户端的类别数
     overlap_num = min(overlap_num, class_num)
 
-    # 采用滑动窗口方式为每个客户端分配类别
-    assigned_labels = [
-        sorted_labels[(client_id * (class_num - overlap_num)) % total_classes:
-                      (client_id * (class_num - overlap_num)) % total_classes + class_num]
-        for client_id in range(client_num)
-    ]
+    if (class_num - overlap_num) * 2 > total_classes:
+        raise ValueError(
+            f"类别总数{total_classes}无法支撑当前客户端要求的类别数({class_num, overlap_num})，需重新设置划分参数。")
 
-    # 根据类别分配数据索引
-    for label in sorted_labels:
-        # 获取该类别的所有样本索引
-        indices = class_indices[label]
-        np.random.shuffle(indices)  # 打乱样本顺序
+    else:
+        # 采用滑动窗口方式为每个客户端分配类别
+        assigned_labels = [
+            sorted_labels[(client_id * (class_num - overlap_num)) % total_classes:
+                          (client_id * (class_num - overlap_num)) % total_classes + class_num]
+            for client_id in range(client_num)
+        ]
 
-        # 找到所有拥有该类别的客户端
-        clients_with_label = [client_id for client_id, classes in enumerate(assigned_labels) if label in classes]
+        # 根据类别分配数据索引
+        for label in sorted_labels:
+            # 获取该类别的所有样本索引
+            indices = class_indices[label]
+            np.random.shuffle(indices)  # 打乱样本顺序
 
-        # 将样本均匀分配给拥有该类别的客户端
-        split_indices = np.array_split(indices, len(clients_with_label))
-        for client_id, split in zip(clients_with_label, split_indices):
-            partition["data_indices"][client_id].extend(split)
-            stats[client_id]["y"][label] = len(split)
+            # 找到所有拥有该类别的客户端
+            clients_with_label = [client_id for client_id, classes in enumerate(assigned_labels) if label in classes]
 
-    # 记录每个客户端拥有的数据量
-    for client_id in range(client_num):
-        stats[client_id]["x"] = len(partition["data_indices"][client_id])
-        partition["data_indices"][client_id] = target_indices[partition["data_indices"][client_id]]
+            # 将样本均匀分配给拥有该类别的客户端
+            split_indices = np.array_split(indices, len(clients_with_label))
+            for client_id, split in zip(clients_with_label, split_indices):
+                partition["data_indices"][client_id].extend(split)
+                stats[client_id]["y"][label] = len(split)
 
-    # 计算每个客户端的数据量统计信息
-    sample_counts = np.array([stat["x"] for stat in stats.values()])
-    stats["samples_per_client"] = {"mean": sample_counts.mean().item(),
-                                   "stddev": sample_counts.std().item()}
+        # 记录每个客户端拥有的数据量
+        for client_id in range(client_num):
+            stats[client_id]["x"] = len(partition["data_indices"][client_id])
+            partition["data_indices"][client_id] = target_indices[partition["data_indices"][client_id]]
+
+        # 计算每个客户端的数据量统计信息
+        sample_counts = np.array([stat["x"] for stat in stats.values()])
+        stats["samples_per_client"] = {"mean": sample_counts.mean().item(),
+                                       "stddev": sample_counts.std().item()}
