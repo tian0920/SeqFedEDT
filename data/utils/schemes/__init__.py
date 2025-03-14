@@ -4,6 +4,7 @@ from .randomly_assign_classes import randomly_assign_classes
 from .semantic import semantic_partition
 from .shards import allocate_shards
 from .orderly_overlap_classes import orderly_overlap_classes
+from .orderly_nested_classes import orderly_nested_classes
 
 __all__ = [
     "dirichlet",
@@ -12,4 +13,5 @@ __all__ = [
     "allocate_shards",
     "semantic_partition",
     "orderly_overlap_classes",
+    "orderly_nested_classes",
 ]

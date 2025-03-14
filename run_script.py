@@ -4,8 +4,8 @@ from pathlib import Path
 
 # 客户端类别数（cc）字典
 client_classes = {
-    'cifar10': [4, 6],
-    # 'cifar100': [10, 20, 30, 40, 50, 60, 70, 80]
+    'cifar10': [6],
+    # 'cifar100': [10]
 }
 
 def run_command(command, log_file):
@@ -22,7 +22,7 @@ def run_command(command, log_file):
         return process.returncode == 0  # 返回是否成功
 
 def main():
-    methods = ['sfl']
+    methods = ['fedavg', 'sfl']
     log_dir = Path("experiment_logs")
     log_dir.mkdir(exist_ok=True)
 
@@ -31,7 +31,7 @@ def main():
             if dataset == 'cifar10':
                 oc_values = list(range(0, cc))
             elif dataset == 'cifar100':
-                oc_values = [x for x in range(0, cc, 5)]
+                oc_values = [x for x in range(5, cc, 5)]
             else:
                 continue
 
@@ -62,7 +62,7 @@ def main():
                         f'dataset.name={dataset}'
                     ]
 
-                    log_filename = f"{method}_random_{dataset}_cc{cc}_oc{oc}.log"
+                    log_filename = f"{method}_{dataset}_cc{cc}_oc{oc}.log"
                     log_path = log_dir / log_filename
 
                     print(f"\n🚀 运行实验: {' '.join(command)}")

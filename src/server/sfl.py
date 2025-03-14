@@ -3,7 +3,7 @@ from copy import deepcopy
 from src.server.fedavg import FedAvgServer
 from src.utils.trainer import FLbenchTrainer
 from src.utils.constants import MODE
-from src.utils.sorted_client_stream import generate_sorted_client_sample_stream
+from src.utils.sorted_client_stream import nest_sorted_client_sample_stream, overlap_sorted_client_sample_stream
 from pathlib import Path
 
 
@@ -16,9 +16,9 @@ class SFLServer(FedAvgServer):
         super().__init__(args)
 
         # 获取当前脚本的路径
-        # current_path = Path(__file__).resolve()
-        #
-        # self.client_sample_stream = generate_sorted_client_sample_stream(
+        current_path = Path(__file__).resolve()
+
+        # self.client_sample_stream = nest_sorted_client_sample_stream(
         #     self.client_sample_stream,
         #     dataset_name=args.dataset.name,
         #     data_path=current_path.parents[2] / "data"   # 获取比当前目录高两级的路径

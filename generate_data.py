@@ -27,8 +27,10 @@ from data.utils.schemes import (
     randomly_assign_classes,
     allocate_shards,
     semantic_partition,
+    orderly_overlap_classes,
+    orderly_nested_classes,
 )
-from data.utils.schemes.orderly_overlap_classes import orderly_overlap_classes
+
 from data.utils.datasets import DATASETS, BaseDataset
 
 CURRENT_DIR = Path(__file__).parent.absolute()
@@ -140,6 +142,15 @@ def main(args):
                     client_num=client_num,
                     class_num=args.client_classes,
                     overlap_num=args.overlap_classes,
+                    partition=partition,
+                    stats=stats,
+                )
+            elif args.nested_mode:
+                orderly_nested_classes(
+                    targets=targets[target_indices],
+                    target_indices=target_indices,
+                    label_set=valid_label_set,
+                    client_num=client_num,
                     partition=partition,
                     stats=stats,
                 )
@@ -379,6 +390,9 @@ if __name__ == "__main__":
     # orderly assign classes and overlap some classes
     parser.add_argument("-cc", "--client_classes", type=int, default=0)
     parser.add_argument("-oc", "--overlap_classes", type=int, default=0)
+
+    # orderly and nested assign classes
+    parser.add_argument("-nest", "--nested_mode", type=bool, default=False)
 
     # Shards
     parser.add_argument("-s", "--shards", type=int, default=0)

@@ -1,9 +1,8 @@
-import json
-import os
-from typing import List, Dict, Set
+import json, os
+from typing import List
 
 
-def generate_sorted_client_sample_stream(client_sample_stream: List[List[str]], dataset_name: str, data_path: str) -> List[List[str]]:
+def overlap_sorted_client_sample_stream(client_sample_stream: List[List[str]], dataset_name: str, data_path: str) -> List[List[str]]:
     """
     使用邻接表和重叠度字典预计算方式，高效地对每轮随机采样的客户端组进行排序优化。
 
@@ -12,7 +11,6 @@ def generate_sorted_client_sample_stream(client_sample_stream: List[List[str]], 
     :param data_path: all_stats.json 文件的路径
     :return: 优化排序后的客户端组列表
     """
-    import os
 
     # 读取客户端类别数据
     file_path = os.path.join(data_path, dataset_name, "all_stats.json")
@@ -71,3 +69,43 @@ def generate_sorted_client_sample_stream(client_sample_stream: List[List[str]], 
         final_ordered_groups.append(sorted_group)
 
     return final_ordered_groups
+
+
+def nest_sorted_client_sample_stream(
+    client_sample_stream: List[str],
+    dataset_name: str,
+    data_path: str
+) -> List[str]:
+    """
+    根据客户端拥有的类别数量，对客户端 ID 进行排序（从少到多）。
+
+    参数:
+        client_sample_stream (List[str]): 原始的客户端列表。
+        dataset_name (str): 数据集名称。
+        data_path (str): 存放 `all_stats.json` 的数据路径。
+
+    返回:
+        List[str]: 排序后的客户端列表。
+    """
+
+    # 读取客户端类别数据
+    file_path = os.path.join(data_path, dataset_name, "all_stats.json")
+    with open(file_path, "r") as f:
+        all_stats = json.load(f)
+
+    # 解析每个客户端的类别集合
+    client_classes = {
+        str(cid): set(map(int, info["y"].keys()))
+        for cid, info in all_stats.items()
+        if str(cid).isdigit()
+    }
+
+    # 计算每个客户端的类别数量
+    client_class_counts = {cid: len(classes) for cid, classes in client_classes.items()}
+
+    # 按照类别数量排序（从少到多）
+    sorted_client_groups = [
+        sorted(group, key=lambda cid: client_class_counts.get(str(cid), float('inf')))
+        for group in client_sample_stream
+    ]
+    return sorted_client_groups

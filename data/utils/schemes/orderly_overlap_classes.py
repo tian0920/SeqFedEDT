@@ -37,7 +37,7 @@ def orderly_overlap_classes(
     # 确保类别重叠数不超过每个客户端的类别数
     overlap_num = min(overlap_num, class_num)
 
-    if (class_num - overlap_num) * 2 > total_classes:
+    if 2 * class_num - overlap_num > total_classes:
         raise ValueError(
             f"类别总数{total_classes}无法支撑当前客户端要求的类别数({class_num, overlap_num})，需重新设置划分参数。")
 
