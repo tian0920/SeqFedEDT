@@ -4,8 +4,8 @@ from pathlib import Path
 
 # 客户端类别数（cc）字典
 client_classes = {
-    'cifar10': [6],
-    # 'cifar100': [10]
+    'cifar10': [4,5,6],
+    'cifar100': [10, 20, 30, 40, 50, 60]
 }
 
 def run_command(command, log_file):
@@ -29,9 +29,9 @@ def main():
     for dataset, cc_values in client_classes.items():
         for cc in cc_values:
             if dataset == 'cifar10':
-                oc_values = list(range(0, cc))
+                oc_values = [1]  # list(range(0, cc))
             elif dataset == 'cifar100':
-                oc_values = [x for x in range(5, cc, 5)]
+                oc_values = [5]  # [x for x in range(5, cc, 5)]
             else:
                 continue
 

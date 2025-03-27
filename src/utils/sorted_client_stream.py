@@ -2,13 +2,14 @@ import json, os
 from typing import List
 
 
-def overlap_sorted_client_sample_stream(client_sample_stream: List[List[str]], dataset_name: str, data_path: str) -> List[List[str]]:
+def multi_overlap_sorted_client_sample_stream(client_sample_stream: List[List[str]], dataset_name: str, data_path: str, n: int = 1) -> List[List[str]]:
     """
     使用邻接表和重叠度字典预计算方式，高效地对每轮随机采样的客户端组进行排序优化。
 
     :param client_sample_stream: 客户端采样的多个组
     :param dataset_name: 数据集名称
     :param data_path: all_stats.json 文件的路径
+    :param n: 考虑前n个客户端与当前客户端的重叠度
     :return: 优化排序后的客户端组列表
     """
 
@@ -33,22 +34,24 @@ def overlap_sorted_client_sample_stream(client_sample_stream: List[List[str]], d
             overlap_dict[key] = overlap
 
     # 快速重排序函数（每轮实时调用）
-    def reorder_clients_fast(sampled_clients: List[str], start_client: str) -> List[str]:
+    def reorder_clients_fast(sampled_clients: List[str], start_clients: List[str]) -> List[str]:
         unvisited = set(sampled_clients)
-        current = start_client
-        sorted_clients = [current]
-        unvisited.remove(current)
+        sorted_clients = start_clients.copy()
+        unvisited.difference_update(start_clients)
 
         while unvisited:
-            next_client = max(
+            # 计算当前客户端与前n个客户端的重叠度之和
+            next_client = min(
                 unvisited,
-                key=lambda c: overlap_dict.get(
-                    (str(min(int(current), int(c))), str(max(int(current), int(c)))), 0
+                key=lambda c: sum(
+                    overlap_dict.get(
+                        (str(min(int(prev), int(c))), str(max(int(prev), int(c)))), 0
+                    )
+                    for prev in sorted_clients[-n:]
                 ),
             )
             sorted_clients.append(next_client)
             unvisited.remove(next_client)
-            current = next_client
 
         return sorted_clients
 
@@ -56,16 +59,24 @@ def overlap_sorted_client_sample_stream(client_sample_stream: List[List[str]], d
     final_ordered_groups = []
     for idx, group in enumerate(client_sample_stream):
         if idx == 0:
-            start_client = group[0]
+            # 第一组直接选择第一个客户端作为起点
+            start_clients = [group[0]]
         else:
-            last_client_prev_group = final_ordered_groups[-1][-1]
-            start_client = max(
+            # 从上一组的最后n个客户端中选择与当前组重叠度最小的客户端作为起点
+            last_n_clients_prev_group = final_ordered_groups[-1][-n:]
+            start_clients = min(
                 group,
-                key=lambda c: overlap_dict.get(
-                    (str(min(int(last_client_prev_group), int(c))), str(max(int(last_client_prev_group), int(c)))), 0
+                key=lambda c: sum(
+                    overlap_dict.get(
+                        (str(min(int(prev), int(c))), str(max(int(prev), int(c)))), 0
+                    )
+                    for prev in last_n_clients_prev_group
                 ),
             )
-        sorted_group = reorder_clients_fast(group, start_client)
+            start_clients = [start_clients]
+
+        # 对当前组进行排序
+        sorted_group = reorder_clients_fast(group, start_clients)
         final_ordered_groups.append(sorted_group)
 
     return final_ordered_groups

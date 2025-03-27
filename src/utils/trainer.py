@@ -101,9 +101,10 @@ class FLbenchTrainer:
                 client_package["lr_scheduler_state"]
             )
 
-        last_client_id = self.server.selected_clients[-1]
-        next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
-        return next_epoch_parms
+        # last_client_id = self.server.selected_clients[-1]
+        # next_epoch_parms = client_packages[last_client_id]["regular_model_params"]
+        # return next_epoch_parms
+        return client_packages
 
 
     def _parallel_train(self):
