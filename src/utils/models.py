@@ -161,7 +161,49 @@ class FedAvgCNN(DecoupledModel):
         self.classifier = nn.Linear(512, NUM_CLASSES[dataset])
 
 
-class LeNet5(DecoupledModel):
+# class LeNet5(DecoupledModel):
+#     feature_length = {
+#         "mnist": 256,
+#         "medmnistS": 256,
+#         "medmnistC": 256,
+#         "medmnistA": 256,
+#         "covid19": 49184,
+#         "fmnist": 256,
+#         "emnist": 256,
+#         "femnist": 256,
+#         "cifar10": 400,
+#         "cinic10": 400,
+#         "svhn": 400,
+#         "cifar100": 400,
+#         "celeba": 33456,
+#         "usps": 200,
+#         "tiny_imagenet": 2704,
+#     }
+#
+#     def __init__(self, dataset: str, pretrained):
+#         super(LeNet5, self).__init__()
+#         self.base = nn.Sequential(
+#             OrderedDict(
+#                 conv1=nn.Conv2d(INPUT_CHANNELS[dataset], 6, 5),
+#                 bn1=nn.BatchNorm2d(6),
+#                 activation1=nn.ReLU(),
+#                 pool1=nn.MaxPool2d(2),
+#                 conv2=nn.Conv2d(6, 16, 5),
+#                 bn2=nn.BatchNorm2d(16),
+#                 activation2=nn.ReLU(),
+#                 pool2=nn.MaxPool2d(2),
+#                 flatten=nn.Flatten(),
+#                 fc1=nn.Linear(self.feature_length[dataset], 120),
+#                 activation3=nn.ReLU(),
+#                 fc2=nn.Linear(120, 84),
+#                 activation4=nn.ReLU(),
+#             )
+#         )
+#
+#         self.classifier = nn.Linear(84, NUM_CLASSES[dataset])
+
+
+class LeNet5(DecoupledModel):    # No batchnorm
     feature_length = {
         "mnist": 256,
         "medmnistS": 256,
@@ -185,11 +227,9 @@ class LeNet5(DecoupledModel):
         self.base = nn.Sequential(
             OrderedDict(
                 conv1=nn.Conv2d(INPUT_CHANNELS[dataset], 6, 5),
-                bn1=nn.BatchNorm2d(6),
                 activation1=nn.ReLU(),
                 pool1=nn.MaxPool2d(2),
                 conv2=nn.Conv2d(6, 16, 5),
-                bn2=nn.BatchNorm2d(16),
                 activation2=nn.ReLU(),
                 pool2=nn.MaxPool2d(2),
                 flatten=nn.Flatten(),

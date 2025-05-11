@@ -20,7 +20,7 @@ for filename in os.listdir(log_dir):
         datasets.add(dataset)
 
         # 读取文件内容
-        with open(os.path.join(log_dir, filename), "r") as f:
+        with open(os.path.join(log_dir, filename), "r", encoding='utf-8') as f:
             content = f.read()
 
         # 正则提取百分比数值

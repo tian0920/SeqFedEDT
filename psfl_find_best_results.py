@@ -3,7 +3,8 @@ import re
 from collections import defaultdict
 
 # 设置日志目录
-log_dir = "experiment_logs/alpha=1.0/psfl+obp"  # ← 修改为你的文件夹路径
+log_dir = "experiment_logs/alpha=1.0_3/score"  # ← 修改为你的文件夹路径
+# log_dir = "experiment_logs/alpha=1.0/psfl+obp"  # ← 修改为你的文件夹路径
 
 # 存储结构：dataset → [(value, parameter)]
 dataset_values = defaultdict(list)
@@ -12,13 +13,13 @@ dataset_values = defaultdict(list)
 for filename in os.listdir(log_dir):
     if filename.endswith(".log"):
         # 提取数据集名和参数值
-        match_name = re.match(r"psfl_(\w+)_([\d.]+)\.log", filename)
+        match_name = re.match(r"psfl\+obp_(\w+)_([\d.]+)\.log", filename)
         if match_name:
             dataset = match_name.group(1)
             param = match_name.group(2)
 
             # 读取文件内容
-            with open(os.path.join(log_dir, filename), "r") as f:
+            with open(os.path.join(log_dir, filename), "r", encoding='utf-8') as f:
                 content = f.read()
 
             # 提取 before fine-tuning 的数值

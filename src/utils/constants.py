@@ -14,6 +14,7 @@ class MODE(Enum):
     SERIAL = 0
     PARALLEL = 1
     SEQUENTIAL = 2
+    PER_SEQUENTIAL = 3
 
 
 DEFAULTS = {
