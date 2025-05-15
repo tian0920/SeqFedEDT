@@ -109,7 +109,8 @@ class FLbenchTrainer:
         return next_epoch_parms
 
     def _per_sequential_train(self):
-        """SFL 训练过程：按顺序训练每个客户端，模型参数依次传递"""
+        """SFL 训练过程：按顺序训练每个客户端，模型参数依次传递
+            模型被解耦为 个性化部分 和 共享部分 """
         client_packages = OrderedDict()
 
         for client_id in self.server.selected_clients:
