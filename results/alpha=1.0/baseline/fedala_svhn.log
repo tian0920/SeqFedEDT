@@ -1,0 +1,567 @@
+==================== FedALA ====================                               
+Experiment Arguments:                                                          
+{
+│   'method': 'fedala',
+│   'dataset': {
+│   │   'name': 'svhn',
+│   │   'client_num': 100,
+│   │   'test_ratio': 0.25,
+│   │   'val_ratio': 0.0,
+│   │   'seed': 42,
+│   │   'split': 'sample',
+│   │   'IID_ratio': 0.0,
+│   │   'monitor_window_name_suffix': 'svhn-100clients-0%IID-Dir(1.0)-seed42',
+│   │   'alpha': 1.0,
+│   │   'min_samples_per_client': 10
+│   },
+│   'model': {
+│   │   'name': 'avgcnn',
+│   │   'use_torchvision_pretrained_weights': True,
+│   │   'external_model_weights_path': None
+│   },
+│   'optimizer': {
+│   │   'lr': 0.01,
+│   │   'dampening': 0,
+│   │   'weight_decay': 0,
+│   │   'momentum': 0,
+│   │   'nesterov': False,
+│   │   'name': 'sgd'
+│   },
+│   'mode': 'serial',
+│   'parallel': {
+│   │   'ray_cluster_addr': None,
+│   │   'num_cpus': None,
+│   │   'num_gpus': None,
+│   │   'num_workers': 2
+│   },
+│   'common': {
+│   │   'seed': 42,
+│   │   'join_ratio': 0.1,
+│   │   'global_epoch': 400,
+│   │   'local_epoch': 5,
+│   │   'batch_size': 32,
+│   │   'reset_optimizer_on_global_epoch': True,
+│   │   'straggler_ratio': 0,
+│   │   'straggler_min_local_epoch': 0,
+│   │   'buffers': 'global',
+│   │   'client_side_evaluation': True,
+│   │   'test': {
+│   │   │   'client': {
+│   │   │   │   'interval': 100,
+│   │   │   │   'finetune_epoch': 0,
+│   │   │   │   'train': False,
+│   │   │   │   'val': False,
+│   │   │   │   'test': True
+│   │   │   },
+│   │   │   'server': {
+│   │   │   │   'interval': -1,
+│   │   │   │   'train': False,
+│   │   │   │   'val': False,
+│   │   │   │   'test': False,
+│   │   │   │   'model_in_train_mode': False
+│   │   │   }
+│   │   },
+│   │   'verbose_gap': 10,
+│   │   'monitor': None,
+│   │   'use_cuda': True,
+│   │   'save_log': True,
+│   │   'save_model': False,
+│   │   'save_learning_curve_plot': False,
+│   │   'save_metrics': True,
+│   │   'delete_useless_run': True
+│   },
+│   'fedala': {
+│   │   'layer_idx': 2,
+│   │   'num_pre_loss': 10,
+│   │   'eta': 1.0,
+│   │   'threshold': 0.1,
+│   │   'rand_percent': 0.8
+│   }
+}
+---------------------------- TRAINING EPOCH: 10 ----------------------------   
+client [77] (testset)   loss: 0.7570 -> 1.9357  accuracy: 79.18% -> 60.12%     
+client [81] (testset)   loss: 0.8169 -> 0.8543  accuracy: 76.65% -> 76.65%     
+client [21] (testset)   loss: 0.6250 -> 0.6058  accuracy: 83.77% -> 80.13%     
+client [68] (testset)   loss: 0.8450 -> 1.2703  accuracy: 80.65% -> 67.74%     
+client [93] (testset)   loss: 0.6225 -> 0.6589  accuracy: 86.42% -> 81.79%     
+client [31] (testset)   loss: 0.8680 -> 0.6005  accuracy: 71.33% -> 80.67%     
+client [20] (testset)   loss: 0.9275 -> 0.9457  accuracy: 71.43% -> 72.53%     
+client [59] (testset)   loss: 0.9342 -> 0.7348  accuracy: 75.47% -> 76.73%     
+client [48] (testset)   loss: 0.8491 -> 1.7064  accuracy: 74.52% -> 57.42%     
+client [34] (testset)   loss: 0.9937 -> 1.0245  accuracy: 70.05% -> 72.08%     
+---------------------------- TRAINING EPOCH: 20 ----------------------------   
+client [69] (testset)   loss: 0.6317 -> 0.4887  accuracy: 81.90% -> 87.07%     
+client [99] (testset)   loss: 0.4730 -> 0.4413  accuracy: 88.07% -> 88.42%     
+client [67] (testset)   loss: 0.3666 -> 0.4139  accuracy: 87.68% -> 85.51%     
+client [0]  (testset)   loss: 0.3130 -> 0.2586  accuracy: 93.04% -> 90.87%     
+client [76] (testset)   loss: 0.4073 -> 0.4396  accuracy: 91.67% -> 87.88%     
+client [41] (testset)   loss: 0.5050 -> 0.5376  accuracy: 86.61% -> 84.52%     
+client [62] (testset)   loss: 0.4522 -> 0.5148  accuracy: 87.39% -> 85.29%     
+client [2]  (testset)   loss: 0.5270 -> 0.5339  accuracy: 86.07% -> 84.64%     
+client [14] (testset)   loss: 0.4535 -> 0.4698  accuracy: 90.00% -> 88.12%     
+client [46] (testset)   loss: 0.4268 -> 0.4060  accuracy: 89.31% -> 85.88%     
+---------------------------- TRAINING EPOCH: 30 ----------------------------   
+client [24] (testset)   loss: 0.5940 -> 0.4507  accuracy: 77.59% -> 84.48%     
+client [68] (testset)   loss: 0.6400 -> 0.7050  accuracy: 84.27% -> 81.45%     
+client [57] (testset)   loss: 0.6797 -> 0.5470  accuracy: 83.70% -> 85.93%     
+client [17] (testset)   loss: 0.7312 -> 0.6955  accuracy: 85.11% -> 84.68%     
+client [54] (testset)   loss: 0.5558 -> 0.5823  accuracy: 86.14% -> 83.83%     
+client [23] (testset)   loss: 0.5272 -> 0.4549  accuracy: 88.14% -> 87.29%     
+client [35] (testset)   loss: 0.6203 -> 0.7492  accuracy: 83.55% -> 82.49%     
+client [59] (testset)   loss: 0.6766 -> 0.5570  accuracy: 86.79% -> 86.79%     
+client [31] (testset)   loss: 0.3566 -> 0.4682  accuracy: 89.33% -> 87.33%     
+client [9]  (testset)   loss: 0.3178 -> 0.2170  accuracy: 91.07% -> 93.93%     
+---------------------------- TRAINING EPOCH: 40 ----------------------------   
+client [64] (testset)   loss: 0.3627 -> 0.3124  accuracy: 89.19% -> 89.86%     
+client [33] (testset)   loss: 0.5954 -> 0.5514  accuracy: 87.23% -> 90.76%     
+client [16] (testset)   loss: 0.5077 -> 0.4598  accuracy: 87.19% -> 87.44%     
+client [44] (testset)   loss: 0.5279 -> 0.4467  accuracy: 89.40% -> 88.59%     
+client [8]  (testset)   loss: 0.4979 -> 0.5432  accuracy: 88.17% -> 87.10%     
+client [31] (testset)   loss: 0.4515 -> 0.3692  accuracy: 86.67% -> 89.33%     
+client [47] (testset)   loss: 0.4343 -> 0.4121  accuracy: 90.80% -> 91.95%     
+client [36] (testset)   loss: 0.4532 -> 0.3866  accuracy: 88.22% -> 89.08%     
+client [20] (testset)   loss: 0.7787 -> 0.8616  accuracy: 80.22% -> 78.02%     
+client [56] (testset)   loss: 0.5358 -> 0.4726  accuracy: 87.13% -> 89.18%     
+---------------------------- TRAINING EPOCH: 50 ----------------------------   
+client [4]  (testset)   loss: 0.4410 -> 0.3248  accuracy: 89.29% -> 89.29%     
+client [60] (testset)   loss: 0.6260 -> 0.7142  accuracy: 84.31% -> 81.37%     
+client [28] (testset)   loss: 0.4883 -> 0.3477  accuracy: 84.15% -> 89.02%     
+client [25] (testset)   loss: 0.9704 -> 0.9585  accuracy: 81.08% -> 82.43%     
+client [58] (testset)   loss: 0.5817 -> 0.6295  accuracy: 86.05% -> 85.12%     
+client [44] (testset)   loss: 0.4909 -> 0.4425  accuracy: 90.76% -> 89.95%     
+client [39] (testset)   loss: 0.6680 -> 0.5707  accuracy: 83.65% -> 86.06%     
+client [29] (testset)   loss: 0.5513 -> 0.6028  accuracy: 83.97% -> 86.22%     
+client [3]  (testset)   loss: 0.4947 -> 0.4750  accuracy: 90.03% -> 88.66%     
+client [84] (testset)   loss: 0.5183 -> 0.4172  accuracy: 87.43% -> 87.43%     
+---------------------------- TRAINING EPOCH: 60 ----------------------------   
+client [21] (testset)   loss: 0.4512 -> 0.4096  accuracy: 89.74% -> 90.07%     
+client [84] (testset)   loss: 0.5022 -> 0.3699  accuracy: 90.16% -> 90.16%     
+client [10] (testset)   loss: 0.5142 -> 0.4817  accuracy: 88.21% -> 87.69%     
+client [36] (testset)   loss: 0.3623 -> 0.3449  accuracy: 90.80% -> 91.38%     
+client [65] (testset)   loss: 0.5141 -> 0.4341  accuracy: 87.94% -> 87.65%     
+client [81] (testset)   loss: 0.5064 -> 0.5331  accuracy: 88.83% -> 87.82%     
+client [79] (testset)   loss: 0.4996 -> 0.4503  accuracy: 89.95% -> 91.36%     
+client [42] (testset)   loss: 0.4660 -> 0.3960  accuracy: 86.31% -> 89.17%     
+client [11] (testset)   loss: 0.4454 -> 0.4204  accuracy: 89.88% -> 89.60%     
+client [96] (testset)   loss: 0.4218 -> 0.4016  accuracy: 88.61% -> 89.87%     
+---------------------------- TRAINING EPOCH: 70 ----------------------------   
+client [8]  (testset)   loss: 0.4516 -> 0.5273  accuracy: 89.78% -> 86.56%     
+client [53] (testset)   loss: 0.7447 -> 0.6758  accuracy: 88.00% -> 90.00%     
+client [52] (testset)   loss: 0.4909 -> 0.5046  accuracy: 86.33% -> 86.58%     
+client [42] (testset)   loss: 0.4544 -> 0.3995  accuracy: 88.22% -> 89.17%     
+client [69] (testset)   loss: 0.3950 -> 0.3716  accuracy: 90.09% -> 89.22%     
+client [59] (testset)   loss: 0.6652 -> 0.5101  accuracy: 86.79% -> 87.42%     
+client [7]  (testset)   loss: 0.4032 -> 0.3934  accuracy: 91.77% -> 90.12%     
+client [26] (testset)   loss: 0.4166 -> 0.3975  accuracy: 90.73% -> 88.18%     
+client [49] (testset)   loss: 0.3053 -> 0.3140  accuracy: 91.93% -> 90.68%     
+client [98] (testset)   loss: 0.3857 -> 0.3618  accuracy: 90.60% -> 91.88%     
+---------------------------- TRAINING EPOCH: 80 ----------------------------   
+client [98] (testset)   loss: 0.4105 -> 0.3508  accuracy: 88.89% -> 92.31%     
+client [47] (testset)   loss: 0.3395 -> 0.3775  accuracy: 92.34% -> 91.19%     
+client [21] (testset)   loss: 0.4340 -> 0.3839  accuracy: 90.40% -> 90.73%     
+client [77] (testset)   loss: 0.4390 -> 0.4673  accuracy: 89.74% -> 88.86%     
+client [95] (testset)   loss: 0.4126 -> 0.4753  accuracy: 91.08% -> 90.81%     
+client [91] (testset)   loss: 0.2308 -> 0.2661  accuracy: 91.91% -> 91.91%     
+client [14] (testset)   loss: 0.5187 -> 0.4867  accuracy: 90.00% -> 86.88%     
+client [99] (testset)   loss: 0.4764 -> 0.4573  accuracy: 89.82% -> 92.28%     
+client [20] (testset)   loss: 0.8147 -> 0.8387  accuracy: 89.01% -> 84.62%     
+client [39] (testset)   loss: 0.5913 -> 0.5582  accuracy: 87.50% -> 87.98%     
+---------------------------- TRAINING EPOCH: 90 ----------------------------   
+client [52] (testset)   loss: 0.4762 -> 0.4768  accuracy: 87.34% -> 86.84%     
+client [62] (testset)   loss: 0.3169 -> 0.2871  accuracy: 93.28% -> 93.70%     
+client [71] (testset)   loss: 0.3319 -> 0.2686  accuracy: 90.52% -> 91.81%     
+client [97] (testset)   loss: 0.4133 -> 0.3945  accuracy: 89.30% -> 88.24%     
+client [30] (testset)   loss: 0.3817 -> 0.3536  accuracy: 93.01% -> 91.91%     
+client [88] (testset)   loss: 0.6930 -> 0.6695  accuracy: 85.15% -> 88.12%     
+client [60] (testset)   loss: 0.5095 -> 0.4307  accuracy: 87.25% -> 88.73%     
+client [82] (testset)   loss: 0.5730 -> 0.4362  accuracy: 84.72% -> 90.28%     
+client [91] (testset)   loss: 0.2501 -> 0.2887  accuracy: 92.49% -> 93.06%     
+client [57] (testset)   loss: 0.4852 -> 0.4370  accuracy: 88.15% -> 88.15%     
+---------------------------- TRAINING EPOCH: 100 ----------------------------  
+client [31] (testset)   loss: 0.4817 -> 0.2389  accuracy: 88.67% -> 92.67%     
+client [15] (testset)   loss: 0.4692 -> 0.5017  accuracy: 91.00% -> 91.00%     
+client [71] (testset)   loss: 0.4810 -> 0.3127  accuracy: 87.93% -> 90.09%     
+client [97] (testset)   loss: 0.5385 -> 0.4346  accuracy: 86.63% -> 87.17%     
+client [53] (testset)   loss: 0.7057 -> 0.7237  accuracy: 88.67% -> 88.67%     
+client [77] (testset)   loss: 0.4392 -> 0.4569  accuracy: 91.20% -> 89.74%     
+client [76] (testset)   loss: 0.2859 -> 0.3698  accuracy: 93.94% -> 90.15%     
+client [79] (testset)   loss: 0.4585 -> 0.4423  accuracy: 91.12% -> 90.42%     
+client [28] (testset)   loss: 0.4015 -> 0.3385  accuracy: 88.62% -> 90.24%     
+client [99] (testset)   loss: 0.4762 -> 0.4506  accuracy: 91.93% -> 92.28%     
+---------------------------- TRAINING EPOCH: 110 ----------------------------  
+client [97] (testset)   loss: 0.3911 -> 0.3619  accuracy: 88.77% -> 89.30%     
+client [86] (testset)   loss: 0.5280 -> 0.5191  accuracy: 90.31% -> 90.75%     
+client [34] (testset)   loss: 0.5690 -> 0.5444  accuracy: 84.26% -> 86.29%     
+client [73] (testset)   loss: 0.3797 -> 0.3755  accuracy: 92.02% -> 92.02%     
+client [5]  (testset)   loss: 0.5762 -> 0.5050  accuracy: 84.73% -> 89.66%     
+client [96] (testset)   loss: 0.3866 -> 0.3681  accuracy: 89.87% -> 90.51%     
+client [22] (testset)   loss: 0.6326 -> 0.5605  accuracy: 87.08% -> 89.54%     
+client [60] (testset)   loss: 0.4779 -> 0.3843  accuracy: 86.27% -> 89.71%     
+client [66] (testset)   loss: 0.3517 -> 0.3751  accuracy: 91.97% -> 92.20%     
+client [83] (testset)   loss: 0.4517 -> 0.5892  accuracy: 87.50% -> 89.13%     
+---------------------------- TRAINING EPOCH: 120 ----------------------------  
+client [76] (testset)   loss: 0.2459 -> 0.3170  accuracy: 93.94% -> 92.42%     
+client [65] (testset)   loss: 0.5068 -> 0.3632  accuracy: 88.53% -> 90.29%     
+client [95] (testset)   loss: 0.3876 -> 0.4021  accuracy: 91.35% -> 90.54%     
+client [17] (testset)   loss: 0.5915 -> 0.6870  accuracy: 88.09% -> 88.94%     
+client [8]  (testset)   loss: 0.4765 -> 0.4894  accuracy: 90.32% -> 89.25%     
+client [35] (testset)   loss: 0.5318 -> 0.5739  accuracy: 87.80% -> 88.33%     
+client [98] (testset)   loss: 0.4282 -> 0.3591  accuracy: 89.32% -> 91.45%     
+client [53] (testset)   loss: 0.7291 -> 0.6731  accuracy: 88.67% -> 90.67%     
+client [43] (testset)   loss: 0.7502 -> 0.6598  accuracy: 89.42% -> 89.42%     
+client [64] (testset)   loss: 0.2723 -> 0.2267  accuracy: 91.89% -> 91.22%     
+---------------------------- TRAINING EPOCH: 130 ----------------------------  
+client [21] (testset)   loss: 0.4349 -> 0.3737  accuracy: 90.73% -> 90.40%     
+client [88] (testset)   loss: 0.6534 -> 0.6456  accuracy: 86.14% -> 87.62%     
+client [38] (testset)   loss: 0.4001 -> 0.4496  accuracy: 91.61% -> 90.88%     
+client [3]  (testset)   loss: 0.4876 -> 0.3441  accuracy: 88.66% -> 93.13%     
+client [5]  (testset)   loss: 0.6511 -> 0.5378  accuracy: 85.22% -> 87.68%     
+client [41] (testset)   loss: 0.4811 -> 0.4829  accuracy: 90.38% -> 92.05%     
+client [7]  (testset)   loss: 0.4070 -> 0.3563  accuracy: 90.95% -> 90.53%     
+client [37] (testset)   loss: 0.5958 -> 0.5917  accuracy: 87.19% -> 88.67%     
+client [45] (testset)   loss: 0.4609 -> 0.5837  accuracy: 89.73% -> 88.59%     
+client [47] (testset)   loss: 0.3315 -> 0.3451  accuracy: 93.87% -> 91.57%     
+---------------------------- TRAINING EPOCH: 140 ----------------------------  
+client [16] (testset)   loss: 0.4628 -> 0.4279  accuracy: 89.45% -> 89.95%     
+client [11] (testset)   loss: 0.4643 -> 0.4134  accuracy: 90.46% -> 91.62%     
+client [37] (testset)   loss: 0.5541 -> 0.5580  accuracy: 89.16% -> 88.67%     
+client [41] (testset)   loss: 0.4164 -> 0.4685  accuracy: 92.05% -> 93.72%     
+client [95] (testset)   loss: 0.4177 -> 0.3963  accuracy: 92.16% -> 91.89%     
+client [53] (testset)   loss: 0.6975 -> 0.7247  accuracy: 90.00% -> 90.00%     
+client [22] (testset)   loss: 0.6220 -> 0.5885  accuracy: 87.69% -> 90.15%     
+client [25] (testset)   loss: 0.8914 -> 1.0867  accuracy: 82.88% -> 84.68%     
+client [69] (testset)   loss: 0.4556 -> 0.3365  accuracy: 89.66% -> 90.95%     
+client [46] (testset)   loss: 0.2110 -> 0.1592  accuracy: 93.13% -> 92.37%     
+---------------------------- TRAINING EPOCH: 150 ----------------------------  
+client [47] (testset)   loss: 0.3266 -> 0.3191  accuracy: 92.34% -> 93.87%     
+client [69] (testset)   loss: 0.4585 -> 0.3682  accuracy: 90.09% -> 91.81%     
+client [82] (testset)   loss: 0.6068 -> 0.4760  accuracy: 85.42% -> 90.28%     
+client [45] (testset)   loss: 0.5189 -> 0.5971  accuracy: 90.11% -> 90.11%     
+client [7]  (testset)   loss: 0.4103 -> 0.3539  accuracy: 91.77% -> 91.77%     
+client [50] (testset)   loss: 0.5083 -> 0.5068  accuracy: 88.84% -> 90.50%     
+client [35] (testset)   loss: 0.5295 -> 0.5865  accuracy: 88.06% -> 87.53%     
+client [24] (testset)   loss: 0.3498 -> 0.4250  accuracy: 89.66% -> 86.21%     
+client [15] (testset)   loss: 0.4580 -> 0.5409  accuracy: 90.05% -> 90.05%     
+client [58] (testset)   loss: 0.5110 -> 0.4979  accuracy: 90.23% -> 88.84%     
+---------------------------- TRAINING EPOCH: 160 ----------------------------  
+client [48] (testset)   loss: 0.5125 -> 0.5160  accuracy: 88.39% -> 90.65%     
+client [76] (testset)   loss: 0.2566 -> 0.4061  accuracy: 95.45% -> 92.42%     
+client [67] (testset)   loss: 0.2451 -> 0.3378  accuracy: 93.48% -> 92.03%     
+client [37] (testset)   loss: 0.6099 -> 0.6024  accuracy: 88.18% -> 88.67%     
+client [58] (testset)   loss: 0.5056 -> 0.5116  accuracy: 89.30% -> 86.98%     
+client [64] (testset)   loss: 0.3444 -> 0.2428  accuracy: 90.54% -> 91.89%     
+client [77] (testset)   loss: 0.4013 -> 0.3924  accuracy: 90.03% -> 91.20%     
+client [55] (testset)   loss: 0.4424 -> 0.4178  accuracy: 91.61% -> 91.61%     
+client [12] (testset)   loss: 0.1704 -> 0.1631  accuracy: 95.57% -> 95.57%     
+client [89] (testset)   loss: 0.4514 -> 0.3777  accuracy: 86.36% -> 90.91%     
+---------------------------- TRAINING EPOCH: 170 ----------------------------  
+client [84] (testset)   loss: 0.3645 -> 0.3172  accuracy: 92.35% -> 94.54%     
+client [51] (testset)   loss: 0.4903 -> 0.4702  accuracy: 89.32% -> 88.83%     
+client [8]  (testset)   loss: 0.4780 -> 0.5302  accuracy: 90.32% -> 89.78%     
+client [18] (testset)   loss: 0.7199 -> 0.6581  accuracy: 86.93% -> 88.24%     
+client [94] (testset)   loss: 0.5171 -> 0.4972  accuracy: 88.09% -> 88.45%     
+client [81] (testset)   loss: 0.4312 -> 0.5036  accuracy: 90.86% -> 89.34%     
+client [3]  (testset)   loss: 0.5050 -> 0.3750  accuracy: 89.00% -> 91.75%     
+client [11] (testset)   loss: 0.4413 -> 0.4038  accuracy: 90.75% -> 92.49%     
+client [95] (testset)   loss: 0.4579 -> 0.3760  accuracy: 91.35% -> 92.70%     
+client [67] (testset)   loss: 0.2304 -> 0.2883  accuracy: 92.75% -> 92.75%     
+---------------------------- TRAINING EPOCH: 180 ----------------------------  
+client [21] (testset)   loss: 0.4456 -> 0.4160  accuracy: 91.39% -> 92.38%     
+client [79] (testset)   loss: 0.5202 -> 0.4259  accuracy: 89.95% -> 92.29%     
+client [58] (testset)   loss: 0.5029 -> 0.5092  accuracy: 89.30% -> 88.37%     
+client [88] (testset)   loss: 0.6888 -> 0.5892  accuracy: 85.15% -> 90.10%     
+client [46] (testset)   loss: 0.2356 -> 0.1740  accuracy: 93.89% -> 92.75%     
+client [11] (testset)   loss: 0.4700 -> 0.4166  accuracy: 90.17% -> 91.91%     
+client [55] (testset)   loss: 0.4375 -> 0.4178  accuracy: 92.26% -> 91.29%     
+client [13] (testset)   loss: 0.2737 -> 0.2923  accuracy: 93.46% -> 93.70%     
+client [31] (testset)   loss: 0.4556 -> 0.2575  accuracy: 90.00% -> 90.00%     
+client [75] (testset)   loss: 0.4421 -> 0.4157  accuracy: 90.36% -> 90.00%     
+---------------------------- TRAINING EPOCH: 190 ----------------------------  
+client [19] (testset)   loss: 0.3298 -> 0.3591  accuracy: 91.67% -> 91.67%     
+client [7]  (testset)   loss: 0.4426 -> 0.4056  accuracy: 92.59% -> 91.77%     
+client [57] (testset)   loss: 0.4547 -> 0.4139  accuracy: 91.11% -> 91.85%     
+client [13] (testset)   loss: 0.2868 -> 0.2892  accuracy: 92.98% -> 93.95%     
+client [43] (testset)   loss: 0.8877 -> 0.7346  accuracy: 89.42% -> 88.46%     
+client [91] (testset)   loss: 0.2584 -> 0.2106  accuracy: 92.49% -> 94.80%     
+client [10] (testset)   loss: 0.5167 -> 0.5076  accuracy: 88.21% -> 90.77%     
+client [64] (testset)   loss: 0.2569 -> 0.2033  accuracy: 93.92% -> 93.92%     
+client [82] (testset)   loss: 0.5750 -> 0.4685  accuracy: 84.03% -> 90.97%     
+client [22] (testset)   loss: 0.6146 -> 0.5937  accuracy: 89.54% -> 91.38%     
+---------------------------- TRAINING EPOCH: 200 ----------------------------  
+client [20] (testset)   loss: 0.8922 -> 0.8105  accuracy: 87.91% -> 85.71%     
+client [23] (testset)   loss: 0.5517 -> 0.4906  accuracy: 89.41% -> 91.95%     
+client [88] (testset)   loss: 0.7385 -> 0.6708  accuracy: 84.16% -> 86.14%     
+client [98] (testset)   loss: 0.3749 -> 0.3754  accuracy: 90.17% -> 91.88%     
+client [79] (testset)   loss: 0.4429 -> 0.4150  accuracy: 91.59% -> 92.52%     
+client [21] (testset)   loss: 0.4497 -> 0.3854  accuracy: 90.73% -> 91.39%     
+client [92] (testset)   loss: 0.6798 -> 0.6525  accuracy: 88.42% -> 90.00%     
+client [56] (testset)   loss: 0.5709 -> 0.4902  accuracy: 90.06% -> 90.64%     
+client [5]  (testset)   loss: 0.6566 -> 0.5448  accuracy: 84.24% -> 89.16%     
+client [52] (testset)   loss: 0.6080 -> 0.4741  accuracy: 87.34% -> 88.86%     
+---------------------------- TRAINING EPOCH: 210 ----------------------------  
+client [67] (testset)   loss: 0.1907 -> 0.2429  accuracy: 93.48% -> 94.93%     
+client [54] (testset)   loss: 0.5982 -> 0.6657  accuracy: 88.78% -> 88.12%     
+client [14] (testset)   loss: 0.6080 -> 0.5111  accuracy: 90.00% -> 90.00%     
+client [99] (testset)   loss: 0.4907 -> 0.5215  accuracy: 91.23% -> 92.63%     
+client [36] (testset)   loss: 0.3840 -> 0.2516  accuracy: 91.67% -> 94.83%     
+client [30] (testset)   loss: 0.3407 -> 0.3025  accuracy: 93.75% -> 91.54%     
+client [38] (testset)   loss: 0.4676 -> 0.5032  accuracy: 90.51% -> 90.51%     
+client [15] (testset)   loss: 0.4832 -> 0.5255  accuracy: 89.57% -> 88.63%     
+client [6]  (testset)   loss: 0.3832 -> 0.3355  accuracy: 94.93% -> 95.81%     
+client [53] (testset)   loss: 0.7575 -> 0.8880  accuracy: 87.33% -> 90.00%     
+---------------------------- TRAINING EPOCH: 220 ----------------------------  
+client [99] (testset)   loss: 0.5705 -> 0.5285  accuracy: 90.53% -> 91.58%     
+client [6]  (testset)   loss: 0.3691 -> 0.3345  accuracy: 95.15% -> 96.04%     
+client [83] (testset)   loss: 0.5171 -> 0.5825  accuracy: 88.04% -> 90.76%     
+client [42] (testset)   loss: 0.4897 -> 0.3920  accuracy: 88.85% -> 91.72%     
+client [34] (testset)   loss: 0.4979 -> 0.5052  accuracy: 87.82% -> 86.80%     
+client [15] (testset)   loss: 0.5074 -> 0.5114  accuracy: 89.10% -> 89.57%     
+client [47] (testset)   loss: 0.3441 -> 0.3025  accuracy: 91.57% -> 93.87%     
+client [55] (testset)   loss: 0.3627 -> 0.4055  accuracy: 92.90% -> 92.90%     
+client [51] (testset)   loss: 0.4789 -> 0.5455  accuracy: 90.29% -> 88.35%     
+client [95] (testset)   loss: 0.4275 -> 0.3930  accuracy: 91.62% -> 93.24%     
+---------------------------- TRAINING EPOCH: 230 ----------------------------  
+client [71] (testset)   loss: 0.3609 -> 0.2387  accuracy: 92.67% -> 93.53%     
+client [15] (testset)   loss: 0.5608 -> 0.4812  accuracy: 87.68% -> 89.57%     
+client [33] (testset)   loss: 0.6782 -> 0.6156  accuracy: 90.22% -> 93.75%     
+client [99] (testset)   loss: 0.5488 -> 0.5166  accuracy: 90.53% -> 92.63%     
+client [90] (testset)   loss: 0.5646 -> 0.4670  accuracy: 90.04% -> 89.68%     
+client [57] (testset)   loss: 0.4700 -> 0.4130  accuracy: 91.11% -> 91.85%     
+client [27] (testset)   loss: 0.6517 -> 0.6371  accuracy: 89.66% -> 90.57%     
+client [78] (testset)   loss: 0.3535 -> 0.3104  accuracy: 92.01% -> 94.49%     
+client [36] (testset)   loss: 0.3346 -> 0.2492  accuracy: 92.82% -> 93.68%     
+client [88] (testset)   loss: 0.6371 -> 0.6525  accuracy: 85.15% -> 87.62%     
+---------------------------- TRAINING EPOCH: 240 ----------------------------  
+client [70] (testset)   loss: 0.6560 -> 0.5174  accuracy: 88.00% -> 89.60%     
+client [35] (testset)   loss: 0.5607 -> 0.5897  accuracy: 88.06% -> 88.59%     
+client [16] (testset)   loss: 0.5853 -> 0.4383  accuracy: 89.70% -> 91.96%     
+client [80] (testset)   loss: 0.8052 -> 0.9186  accuracy: 89.61% -> 89.61%     
+client [38] (testset)   loss: 0.4800 -> 0.5291  accuracy: 91.24% -> 90.88%     
+client [78] (testset)   loss: 0.3128 -> 0.3223  accuracy: 94.49% -> 94.21%     
+client [68] (testset)   loss: 0.5388 -> 0.5320  accuracy: 87.10% -> 88.31%     
+client [11] (testset)   loss: 0.5204 -> 0.4624  accuracy: 91.62% -> 91.91%     
+client [64] (testset)   loss: 0.3193 -> 0.2357  accuracy: 90.54% -> 92.57%     
+client [82] (testset)   loss: 0.5286 -> 0.4238  accuracy: 86.81% -> 92.36%     
+---------------------------- TRAINING EPOCH: 250 ----------------------------  
+client [30] (testset)   loss: 0.3326 -> 0.2829  accuracy: 94.12% -> 93.75%     
+client [27] (testset)   loss: 0.6523 -> 0.6819  accuracy: 89.43% -> 91.03%     
+client [74] (testset)   loss: 0.4815 -> 0.5108  accuracy: 92.21% -> 88.96%     
+client [45] (testset)   loss: 0.5950 -> 0.6724  accuracy: 88.97% -> 89.73%     
+client [6]  (testset)   loss: 0.3962 -> 0.3537  accuracy: 95.15% -> 95.37%     
+client [36] (testset)   loss: 0.3031 -> 0.2430  accuracy: 92.82% -> 95.40%     
+client [63] (testset)   loss: 0.3219 -> 0.2074  accuracy: 90.55% -> 92.13%     
+client [76] (testset)   loss: 0.2409 -> 0.3515  accuracy: 96.21% -> 93.94%     
+client [83] (testset)   loss: 0.5352 -> 0.6110  accuracy: 89.13% -> 89.13%     
+client [86] (testset)   loss: 0.6248 -> 0.5613  accuracy: 90.75% -> 91.63%     
+---------------------------- TRAINING EPOCH: 260 ----------------------------  
+client [83] (testset)   loss: 0.5034 -> 0.5907  accuracy: 88.59% -> 91.85%     
+client [99] (testset)   loss: 0.6001 -> 0.5503  accuracy: 91.93% -> 91.58%     
+client [74] (testset)   loss: 0.4849 -> 0.5256  accuracy: 90.91% -> 89.61%     
+client [73] (testset)   loss: 0.4813 -> 0.4531  accuracy: 89.88% -> 93.25%     
+client [29] (testset)   loss: 0.5569 -> 0.5559  accuracy: 88.14% -> 88.46%     
+client [92] (testset)   loss: 0.7309 -> 0.6883  accuracy: 87.89% -> 90.00%     
+client [6]  (testset)   loss: 0.4072 -> 0.3550  accuracy: 95.15% -> 95.81%     
+client [61] (testset)   loss: 0.3628 -> 0.4696  accuracy: 92.39% -> 92.39%     
+client [21] (testset)   loss: 0.4896 -> 0.3918  accuracy: 89.07% -> 92.38%     
+client [67] (testset)   loss: 0.2757 -> 0.2790  accuracy: 92.75% -> 92.03%     
+---------------------------- TRAINING EPOCH: 270 ----------------------------  
+client [83] (testset)   loss: 0.4939 -> 0.5421  accuracy: 89.13% -> 90.22%     
+client [32] (testset)   loss: 0.5581 -> 0.5032  accuracy: 87.39% -> 85.59%     
+client [95] (testset)   loss: 0.4474 -> 0.3699  accuracy: 91.62% -> 92.97%     
+client [61] (testset)   loss: 0.3791 -> 0.4368  accuracy: 92.93% -> 92.39%     
+client [27] (testset)   loss: 0.6534 -> 0.6628  accuracy: 89.89% -> 91.72%     
+client [25] (testset)   loss: 0.9693 -> 0.9900  accuracy: 87.84% -> 87.39%     
+client [68] (testset)   loss: 0.5863 -> 0.5145  accuracy: 87.50% -> 89.11%     
+client [34] (testset)   loss: 0.5709 -> 0.5598  accuracy: 85.79% -> 85.28%     
+client [71] (testset)   loss: 0.3911 -> 0.2878  accuracy: 93.10% -> 92.67%     
+client [89] (testset)   loss: 0.4359 -> 0.3188  accuracy: 87.88% -> 90.91%     
+---------------------------- TRAINING EPOCH: 280 ----------------------------  
+client [78] (testset)   loss: 0.3328 -> 0.3091  accuracy: 94.49% -> 95.04%     
+client [81] (testset)   loss: 0.4214 -> 0.4854  accuracy: 91.37% -> 89.85%     
+client [51] (testset)   loss: 0.6702 -> 0.5120  accuracy: 85.44% -> 89.32%     
+client [54] (testset)   loss: 0.6875 -> 0.7523  accuracy: 87.13% -> 86.80%     
+client [65] (testset)   loss: 0.6449 -> 0.3768  accuracy: 87.35% -> 92.35%     
+client [41] (testset)   loss: 0.5032 -> 0.5423  accuracy: 91.63% -> 90.79%     
+client [11] (testset)   loss: 0.5300 -> 0.4603  accuracy: 91.04% -> 91.91%     
+client [85] (testset)   loss: 0.4365 -> 0.4102  accuracy: 91.95% -> 93.68%     
+client [12] (testset)   loss: 0.1671 -> 0.2046  accuracy: 95.57% -> 94.94%     
+client [23] (testset)   loss: 0.6041 -> 0.5500  accuracy: 88.56% -> 91.53%     
+---------------------------- TRAINING EPOCH: 290 ----------------------------  
+client [16] (testset)   loss: 0.5564 -> 0.4512  accuracy: 90.20% -> 89.95%     
+client [65] (testset)   loss: 0.4829 -> 0.3746  accuracy: 90.59% -> 92.35%     
+client [53] (testset)   loss: 0.7473 -> 0.7708  accuracy: 88.67% -> 88.67%     
+client [58] (testset)   loss: 0.5085 -> 0.4964  accuracy: 89.77% -> 90.23%     
+client [72] (testset)   loss: 0.3547 -> 0.2586  accuracy: 85.37% -> 91.87%     
+client [7]  (testset)   loss: 0.4777 -> 0.4104  accuracy: 92.18% -> 93.42%     
+client [71] (testset)   loss: 0.4241 -> 0.2907  accuracy: 93.10% -> 93.53%     
+client [59] (testset)   loss: 0.8558 -> 0.7692  accuracy: 89.31% -> 89.31%     
+client [86] (testset)   loss: 0.6301 -> 0.5725  accuracy: 89.87% -> 91.19%     
+client [39] (testset)   loss: 0.6431 -> 0.6344  accuracy: 87.02% -> 87.02%     
+---------------------------- TRAINING EPOCH: 300 ----------------------------  
+client [99] (testset)   loss: 0.6090 -> 0.5964  accuracy: 91.93% -> 91.23%     
+client [7]  (testset)   loss: 0.4908 -> 0.4020  accuracy: 92.18% -> 92.59%     
+client [17] (testset)   loss: 0.7146 -> 0.6677  accuracy: 90.64% -> 91.49%     
+client [64] (testset)   loss: 0.3268 -> 0.2219  accuracy: 91.22% -> 94.59%     
+client [37] (testset)   loss: 0.6600 -> 0.6271  accuracy: 89.66% -> 89.16%     
+client [29] (testset)   loss: 0.5263 -> 0.4971  accuracy: 89.42% -> 89.74%     
+client [93] (testset)   loss: 0.4063 -> 0.4037  accuracy: 92.77% -> 92.77%     
+client [73] (testset)   loss: 0.4610 -> 0.4809  accuracy: 91.10% -> 91.72%     
+client [40] (testset)   loss: 0.3920 -> 0.3800  accuracy: 93.75% -> 94.64%     
+client [76] (testset)   loss: 0.2546 -> 0.2612  accuracy: 95.45% -> 94.70%     
+---------------------------- TRAINING EPOCH: 310 ----------------------------  
+client [31] (testset)   loss: 0.4430 -> 0.2289  accuracy: 91.33% -> 94.00%     
+client [89] (testset)   loss: 0.3759 -> 0.3555  accuracy: 90.91% -> 89.90%     
+client [77] (testset)   loss: 0.4577 -> 0.4044  accuracy: 90.32% -> 91.79%     
+client [90] (testset)   loss: 0.4901 -> 0.4675  accuracy: 91.81% -> 91.46%     
+client [26] (testset)   loss: 0.5997 -> 0.5476  accuracy: 91.37% -> 92.97%     
+client [50] (testset)   loss: 0.5566 -> 0.5540  accuracy: 88.84% -> 90.08%     
+client [30] (testset)   loss: 0.3462 -> 0.3052  accuracy: 94.12% -> 94.85%     
+client [70] (testset)   loss: 0.6755 -> 0.5686  accuracy: 88.40% -> 91.20%     
+client [41] (testset)   loss: 0.5418 -> 0.5089  accuracy: 90.79% -> 91.63%     
+client [99] (testset)   loss: 0.5966 -> 0.6074  accuracy: 91.58% -> 91.93%     
+---------------------------- TRAINING EPOCH: 320 ----------------------------  
+client [68] (testset)   loss: 0.5802 -> 0.5539  accuracy: 87.10% -> 89.11%     
+client [70] (testset)   loss: 0.7589 -> 0.5866  accuracy: 88.00% -> 90.80%     
+client [52] (testset)   loss: 0.6530 -> 0.5111  accuracy: 86.58% -> 90.63%     
+client [1]  (testset)   loss: 0.4086 -> 0.4404  accuracy: 91.55% -> 92.61%     
+client [2]  (testset)   loss: 0.4249 -> 0.4204  accuracy: 90.36% -> 90.00%     
+client [67] (testset)   loss: 0.2337 -> 0.2544  accuracy: 95.65% -> 92.75%     
+client [92] (testset)   loss: 0.6864 -> 0.6404  accuracy: 90.00% -> 90.53%     
+client [35] (testset)   loss: 0.5919 -> 0.5958  accuracy: 88.33% -> 88.33%     
+client [36] (testset)   loss: 0.3947 -> 0.2655  accuracy: 91.38% -> 94.25%     
+client [64] (testset)   loss: 0.3785 -> 0.2449  accuracy: 93.24% -> 93.24%     
+---------------------------- TRAINING EPOCH: 330 ----------------------------  
+client [44] (testset)   loss: 0.3931 -> 0.2885  accuracy: 91.58% -> 91.85%     
+client [6]  (testset)   loss: 0.4049 -> 0.3694  accuracy: 95.37% -> 95.37%     
+client [12] (testset)   loss: 0.2183 -> 0.2348  accuracy: 94.30% -> 94.94%     
+client [55] (testset)   loss: 0.4045 -> 0.4309  accuracy: 91.29% -> 93.55%     
+client [29] (testset)   loss: 0.4975 -> 0.5090  accuracy: 89.74% -> 89.10%     
+client [9]  (testset)   loss: 0.2962 -> 0.1646  accuracy: 94.64% -> 97.50%     
+client [43] (testset)   loss: 1.0448 -> 0.8938  accuracy: 88.46% -> 91.35%     
+client [77] (testset)   loss: 0.5130 -> 0.3960  accuracy: 89.15% -> 91.79%     
+client [98] (testset)   loss: 0.4614 -> 0.3907  accuracy: 90.17% -> 92.31%     
+client [78] (testset)   loss: 0.3533 -> 0.3090  accuracy: 93.66% -> 95.59%     
+---------------------------- TRAINING EPOCH: 340 ----------------------------  
+client [92] (testset)   loss: 0.8320 -> 0.6910  accuracy: 87.89% -> 91.05%     
+client [80] (testset)   loss: 0.8233 -> 0.9534  accuracy: 89.61% -> 89.18%     
+client [63] (testset)   loss: 0.4537 -> 0.2761  accuracy: 88.19% -> 92.91%     
+client [76] (testset)   loss: 0.2879 -> 0.2436  accuracy: 95.45% -> 95.45%     
+client [78] (testset)   loss: 0.3815 -> 0.3360  accuracy: 93.66% -> 94.49%     
+client [25] (testset)   loss: 1.0174 -> 1.1128  accuracy: 85.14% -> 85.14%     
+client [58] (testset)   loss: 0.5634 -> 0.5280  accuracy: 88.84% -> 88.84%     
+client [13] (testset)   loss: 0.3440 -> 0.3040  accuracy: 92.74% -> 93.95%     
+client [17] (testset)   loss: 0.7352 -> 0.7302  accuracy: 90.21% -> 91.06%     
+client [38] (testset)   loss: 0.4844 -> 0.4857  accuracy: 92.34% -> 92.34%     
+---------------------------- TRAINING EPOCH: 350 ----------------------------  
+client [72] (testset)   loss: 0.3605 -> 0.2567  accuracy: 87.80% -> 92.68%     
+client [82] (testset)   loss: 0.6466 -> 0.4009  accuracy: 86.11% -> 93.06%     
+client [86] (testset)   loss: 0.6879 -> 0.5859  accuracy: 91.19% -> 90.75%     
+client [51] (testset)   loss: 0.5631 -> 0.5567  accuracy: 89.81% -> 89.32%     
+client [96] (testset)   loss: 0.4627 -> 0.5032  accuracy: 90.51% -> 91.14%     
+client [42] (testset)   loss: 0.6091 -> 0.3912  accuracy: 89.17% -> 91.08%     
+client [55] (testset)   loss: 0.4292 -> 0.3952  accuracy: 91.61% -> 92.90%     
+client [13] (testset)   loss: 0.2959 -> 0.3025  accuracy: 93.46% -> 93.95%     
+client [1]  (testset)   loss: 0.3992 -> 0.4388  accuracy: 90.85% -> 92.61%     
+client [12] (testset)   loss: 0.1994 -> 0.2790  accuracy: 96.20% -> 94.94%     
+---------------------------- TRAINING EPOCH: 360 ----------------------------  
+client [68] (testset)   loss: 0.6504 -> 0.5347  accuracy: 86.29% -> 87.90%     
+client [23] (testset)   loss: 0.6263 -> 0.5473  accuracy: 90.68% -> 90.68%     
+client [46] (testset)   loss: 0.3581 -> 0.2039  accuracy: 93.89% -> 93.89%     
+client [41] (testset)   loss: 0.5453 -> 0.5678  accuracy: 91.21% -> 92.89%     
+client [25] (testset)   loss: 1.0316 -> 1.0364  accuracy: 87.39% -> 87.39%     
+client [58] (testset)   loss: 0.5590 -> 0.5451  accuracy: 89.77% -> 90.23%     
+client [14] (testset)   loss: 0.6623 -> 0.6065  accuracy: 89.38% -> 90.62%     
+client [33] (testset)   loss: 0.7719 -> 0.7517  accuracy: 90.49% -> 92.93%     
+client [85] (testset)   loss: 0.4575 -> 0.4055  accuracy: 92.53% -> 93.10%     
+client [62] (testset)   loss: 0.2648 -> 0.3440  accuracy: 93.70% -> 93.28%     
+---------------------------- TRAINING EPOCH: 370 ----------------------------  
+client [98] (testset)   loss: 0.4331 -> 0.4466  accuracy: 90.60% -> 91.88%     
+client [63] (testset)   loss: 0.4451 -> 0.2738  accuracy: 89.76% -> 91.34%     
+client [70] (testset)   loss: 0.7450 -> 0.5854  accuracy: 88.80% -> 90.00%     
+client [65] (testset)   loss: 0.5355 -> 0.4298  accuracy: 90.29% -> 92.65%     
+client [14] (testset)   loss: 0.6634 -> 0.6324  accuracy: 90.00% -> 90.62%     
+client [73] (testset)   loss: 0.5135 -> 0.5356  accuracy: 90.49% -> 91.72%     
+client [34] (testset)   loss: 0.5898 -> 0.5363  accuracy: 87.82% -> 89.34%     
+client [99] (testset)   loss: 0.6147 -> 0.5888  accuracy: 91.93% -> 91.23%     
+client [69] (testset)   loss: 0.5020 -> 0.4013  accuracy: 90.09% -> 92.24%     
+client [46] (testset)   loss: 0.3442 -> 0.2301  accuracy: 93.89% -> 94.66%     
+---------------------------- TRAINING EPOCH: 380 ----------------------------  
+client [99] (testset)   loss: 0.6233 -> 0.5918  accuracy: 91.58% -> 91.23%     
+client [93] (testset)   loss: 0.4184 -> 0.3909  accuracy: 92.77% -> 92.77%     
+client [11] (testset)   loss: 0.5417 -> 0.4681  accuracy: 91.62% -> 92.77%     
+client [58] (testset)   loss: 0.5668 -> 0.5325  accuracy: 89.30% -> 91.16%     
+client [81] (testset)   loss: 0.4845 -> 0.4554  accuracy: 91.88% -> 91.88%     
+client [85] (testset)   loss: 0.4268 -> 0.3635  accuracy: 91.95% -> 92.53%     
+client [89] (testset)   loss: 0.4731 -> 0.3411  accuracy: 87.37% -> 91.41%     
+client [45] (testset)   loss: 0.7126 -> 0.6415  accuracy: 88.21% -> 88.97%     
+client [8]  (testset)   loss: 0.6596 -> 0.6822  accuracy: 90.86% -> 88.71%     
+client [68] (testset)   loss: 0.6705 -> 0.5784  accuracy: 85.89% -> 88.71%     
+---------------------------- TRAINING EPOCH: 390 ----------------------------  
+client [67] (testset)   loss: 0.2713 -> 0.2835  accuracy: 92.75% -> 92.03%     
+client [72] (testset)   loss: 0.4217 -> 0.3308  accuracy: 87.80% -> 93.50%     
+client [1]  (testset)   loss: 0.4204 -> 0.4242  accuracy: 91.20% -> 92.25%     
+client [78] (testset)   loss: 0.3408 -> 0.3242  accuracy: 94.77% -> 95.32%     
+client [83] (testset)   loss: 0.5791 -> 0.6073  accuracy: 89.67% -> 90.22%     
+client [21] (testset)   loss: 0.4907 -> 0.4515  accuracy: 90.73% -> 92.72%     
+client [56] (testset)   loss: 0.6691 -> 0.5161  accuracy: 88.89% -> 90.64%     
+client [44] (testset)   loss: 0.4349 -> 0.3032  accuracy: 90.22% -> 91.85%     
+client [92] (testset)   loss: 0.7572 -> 0.6993  accuracy: 91.05% -> 91.05%     
+client [27] (testset)   loss: 0.7502 -> 0.6985  accuracy: 89.20% -> 91.03%     
+---------------------------- TRAINING EPOCH: 400 ----------------------------  
+client [10] (testset)   loss: 0.5300 -> 0.5119  accuracy: 90.77% -> 91.28%     
+client [39] (testset)   loss: 0.7321 -> 0.7550  accuracy: 86.54% -> 87.98%     
+client [65] (testset)   loss: 0.5794 -> 0.4558  accuracy: 89.12% -> 91.47%     
+client [26] (testset)   loss: 0.6189 -> 0.6131  accuracy: 91.69% -> 93.29%     
+client [19] (testset)   loss: 0.3562 -> 0.3705  accuracy: 92.56% -> 92.56%     
+client [68] (testset)   loss: 0.6498 -> 0.5893  accuracy: 87.50% -> 87.90%     
+client [41] (testset)   loss: 0.5298 -> 0.5703  accuracy: 91.21% -> 92.05%     
+client [50] (testset)   loss: 0.6730 -> 0.5588  accuracy: 88.02% -> 91.32%     
+client [75] (testset)   loss: 0.5106 -> 0.5041  accuracy: 91.43% -> 91.07%     
+client [81] (testset)   loss: 0.4229 -> 0.3981  accuracy: 91.88% -> 92.39%     
+Training... ---------------------------------------- 100% 0:25:40
+FedALA's average time taken by each global epoch: 0 min 3.78 sec.              
+FedALA's total running time: 0 h 25 m 40 s.                                    
+==================== FedALA Experiment Results: ====================           
+Display format: (before local fine-tuning) -> (after local fine-tuning)        
+ So if finetune_epoch = 0, x.xx% -> 0.00% is normal.                           
+ Centralized testing ONLY happens after model aggregation, so the stats between
+'->' are the same.                                                             
+{                                                                              
+    "100": {                                                                   
+        "all_clients": {                                                       
+            "test": {                                                          
+                "loss": "0.4749 -> 0.0000",                                    
+                "accuracy": "89.56% -> 0.00%"                                  
+            }                                                                  
+        }                                                                      
+    },                                                                         
+    "200": {                                                                   
+        "all_clients": {                                                       
+            "test": {                                                          
+                "loss": "0.4895 -> 0.0000",                                    
+                "accuracy": "90.22% -> 0.00%"                                  
+            }                                                                  
+        }                                                                      
+    },                                                                         
+    "300": {                                                                   
+        "all_clients": {                                                       
+            "test": {                                                          
+                "loss": "0.5162 -> 0.0000",                                    
+                "accuracy": "90.69% -> 0.00%"                                  
+            }                                                                  
+        }                                                                      
+    },                                                                         
+    "400": {                                                                   
+        "all_clients": {                                                       
+            "test": {                                                          
+                "loss": "0.5505 -> 0.0000",                                    
+                "accuracy": "90.81% -> 0.00%"                                  
+            }                                                                  
+        }                                                                      
+    }                                                                          
+}                                                                              
+==================== FedALA Max Accuracy ====================                  
+all_clients:                                                                   
+(test) before fine-tuning: 90.81% at epoch 400                                 
+(test) after fine-tuning: 0.00% at epoch 100                                   
+[0m
