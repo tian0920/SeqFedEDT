@@ -379,15 +379,3 @@ You can find all details in [`FedAvgClient`](src/client/fedavg.py) and [`FedAvgS
   url = {https://github.com/KarhouTam/FL-bench}
 }
 ```
-
-```bibtex
-@misc{tan2023pfedsim,
-  title={pFedSim: Similarity-Aware Model Aggregation Towards Personalized Federated Learning}, 
-  author={Jiahao Tan and Yipeng Zhou and Gang Liu and Jessie Hui Wang and Shui Yu},
-  year={2023},
-  eprint={2305.15706},
-  archivePrefix={arXiv},
-  primaryClass={cs.LG}
-}
-
-```
